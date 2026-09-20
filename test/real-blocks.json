@@ -1,0 +1,55 @@
+{
+ "note": "Real Veil mainnet RandomX blocks: randomx_input_hex is the 148 byte CRandomXInput (version, prev, merkle root, witness merkle root, accumulators, time, bits, nonce, height); the RandomX key is the block hash at key_block_height (raw bytes = reversed display hex); randomxproofofworkhash is what veild reports.",
+ "blocks": [
+  {
+   "height": 3957700,
+   "blockhash": "56bdd3cbba9f0068bb5da2500d9c27235e677163ed0113dd06605483449458b7",
+   "bits": "1e00b484",
+   "nonce": 501285,
+   "randomx_input_hex": "00000032d63afce1b1c76f193f5cef7e5a156f8d29d5bb44688aa2d450a7916e32489dd36fb14a2b6873c7b308e2a095605fba76b79968ce20558aa4fc45b0d9b64dd1b76fb14a2b6873c7b308e2a095605fba76b79968ce20558aa4fc45b0d9b64dd1b76fab3f2fc0504631329c222dae5bc9ce44c89a06782c77cd0c64f5430dba2dd2b8c0806a84b4001e25a60700c4633c00",
+   "key_block_height": 3956736,
+   "key_block_hash": "10dd004d2b747da477c9d35b0adf4b54cb1b6583a08027066ebd5c4df93c8142",
+   "randomxproofofworkhash": "00000010ee4eaafc6a60428f45dc38b4f8c917dd5fe6eb1a73fdc094239369d4"
+  },
+  {
+   "height": 3957706,
+   "blockhash": "41396e0e6e7643bd5be7cd52d036c2e7f3c93849b9542b775af8af6e91fc8388",
+   "bits": "1e00961a",
+   "nonce": 39834,
+   "randomx_input_hex": "0000003267685585f5e97d1310fb4382978ef36db91d9400c062b1fb276514e9c26196353c841fef4b519bb95a39d449fb0b1902ffd076875bc3e7d8bc1cb106dba5cc873c841fef4b519bb95a39d449fb0b1902ffd076875bc3e7d8bc1cb106dba5cc876fab3f2fc0504631329c222dae5bc9ce44c89a06782c77cd0c64f5430dba2dd2dac1806a1a96001e9a9b0000ca633c00",
+   "key_block_height": 3956736,
+   "key_block_hash": "10dd004d2b747da477c9d35b0adf4b54cb1b6583a08027066ebd5c4df93c8142",
+   "randomxproofofworkhash": "0000004f68615b5939c5c529deb608a66063d78dc389756c4ac1166fa935bd87"
+  },
+  {
+   "height": 3957735,
+   "blockhash": "8e28cfb1650a943645dc30b3cf12124279bc5c3d318449d4577c028c4d30e47b",
+   "bits": "1e00afb1",
+   "nonce": 200174,
+   "randomx_input_hex": "0000003285264ab760f6f9b320417a23dcfb3a4d51bcc6f8e2db102855a3f10647866df629f73af5bf1bbc3701551d6b9266302ac40c2f1a87cf17525ebc905723d7f65829f73af5bf1bbc3701551d6b9266302ac40c2f1a87cf17525ebc905723d7f6580f1a961dd27015268984dc4301a0e99a2906078d4a4d7b0b4e4aa65a147da899bcc7806ab1af001eee0d0300e7633c00",
+   "key_block_height": 3956736,
+   "key_block_hash": "10dd004d2b747da477c9d35b0adf4b54cb1b6583a08027066ebd5c4df93c8142",
+   "randomxproofofworkhash": "00000049c24a9eee8e7bb58bf1edb5b5a5e2e286812296e74d1be4cf74de7a04"
+  },
+  {
+   "height": 3957752,
+   "blockhash": "d441c52a21365b45f3f533655d9e7b9006922ada1890903b82830dc73cdb6c32",
+   "bits": "1e00b5e9",
+   "nonce": 131907,
+   "randomx_input_hex": "000000326cbc7afad50f3ca1941266e8ace659f3635c04b635b91c632e6d362b4448740af32503f2f779fbd9f564a816215f6569f67d42be3c80a9cfdfc7ac136200dbcbf32503f2f779fbd9f564a816215f6569f67d42be3c80a9cfdfc7ac136200dbcb3ef775daacb2e31b3bd8f82da0261354fafa8294e449231fd5c4f76d7387a828f8cc806ae9b5001e43030200f8633c00",
+   "key_block_height": 3956736,
+   "key_block_hash": "10dd004d2b747da477c9d35b0adf4b54cb1b6583a08027066ebd5c4df93c8142",
+   "randomxproofofworkhash": "000000a106047241f69bfe3a610df8f4aab75830a8447cbd8191cafb9d89ae73"
+  },
+  {
+   "height": 3957753,
+   "blockhash": "eb741dc3403fd9c29c668a6c23f5ce81c466fa13ea12d71bca2e13946ffa93da",
+   "bits": "1e00b106",
+   "nonce": 40506,
+   "randomx_input_hex": "00000032326cdb3cc70d83823b909018da2a9206907b9e5d6533f5f3455b36212ac541d4de92afb437ffbd9d670a192d3593e264fecec22fd2ea00648cc7ed669f54e636de92afb437ffbd9d670a192d3593e264fecec22fd2ea00648cc7ed669f54e6363ef775daacb2e31b3bd8f82da0261354fafa8294e449231fd5c4f76d7387a82831cd806a06b1001e3a9e0000f9633c00",
+   "key_block_height": 3956736,
+   "key_block_hash": "10dd004d2b747da477c9d35b0adf4b54cb1b6583a08027066ebd5c4df93c8142",
+   "randomxproofofworkhash": "0000003f3885b30875132fb4f7400befb9a30234b5530232d823891366a0fda2"
+  }
+ ]
+}

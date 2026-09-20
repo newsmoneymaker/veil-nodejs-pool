@@ -23,7 +23,7 @@ Bitcoin-style node and wallet RPC. Live example: <https://veil.pool-pay.com>.
 * **Website and API:** a ready website (`website_example/`) with the dashboard, blocks, payments, top miners, worker statistics, a "Getting started"
   page with a config generator, and the public read-only JSON API.
 * **Protection against connection floods:** limits per IP, a login deadline, an optional IP allow list, banning of miners with many invalid shares.
-* **Tests** with a simulated Veil node and wallet (`test/`): a real RandomX miner finds shares and blocks against the pool code.
+* **Tests** (`test/`): the hashing method is checked against real Veil mainnet blocks (`test/test-real-blocks.js`: the hash equals the `randomxproofofworkhash` reported by `veild`), and a simulated Veil node and wallet let a real RandomX miner find shares and blocks against the pool code.
 
 ## Developer donation (please read)
 
@@ -63,6 +63,7 @@ free, has its own fee) or the XMRig fork [us77ipis/xmrig-veil](https://github.co
 npm install
 node test/test-account.js                 # address handling, needs nothing else
 make -C hasher RANDOMX=/path/to/randomx-prefix
+node test/test-real-blocks.js             # the hash of 5 real mainnet RandomX blocks, needs only the helper
 # The others use test/config.test.json and a THROWAWAY Redis on port 16379 (they flush it, never point them at a real database):
 redis-server --port 16379 --requirepass CHANGE_ME_REDIS_PASSWORD --save "" --appendonly no &
 TEST_ADDRESS=bv1q... node test/test-veil-pool.js                       # simulated node + pool + a miner that really mines
