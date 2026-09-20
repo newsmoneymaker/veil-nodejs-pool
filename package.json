@@ -1,11 +1,11 @@
 {
-  "name": "epic-nodejs-pool",
+  "name": "veil-nodejs-pool",
   "version": "1.0.0",
   "license": "GPL-2.0",
   "author": "Daniel Vandal (cryptonote-nodejs-pool), Epic Cash adaptation by the epic-nodejs-pool contributors",
   "repository": {
     "type": "git",
-    "url": "https://github.com/newsmoneymaker/epic-nodejs-pool.git"
+    "url": "https://github.com/newsmoneymaker/veil-nodejs-pool.git"
   },
   "dependencies": {
     "async": "^1.5.2",
@@ -16,9 +16,9 @@
   "engines": {
     "node": ">=18"
   },
-  "description": "Epic Cash mining pool (based on cryptonote-nodejs-pool)",
-  "homepage": "https://github.com/newsmoneymaker/epic-nodejs-pool",
+  "description": "Veil (VEIL) mining pool: RandomX stratum, block accounting, batch payouts (fork of cryptonote-nodejs-pool)",
+  "homepage": "https://github.com/newsmoneymaker/veil-nodejs-pool",
   "bugs": {
-    "url": "https://github.com/newsmoneymaker/epic-nodejs-pool/issues"
+    "url": "https://github.com/newsmoneymaker/veil-nodejs-pool/issues"
   }
 }

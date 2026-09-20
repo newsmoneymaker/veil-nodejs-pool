@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Epic Cash pool API</title>
+<title>Veil pool API</title>
 <style>
 	:root { --bg: #fff; --fg: #1d2330; --muted: #5b6577; --card: #f3f5f9; --line: #d8dde8; --accent: #1a5fd0; }
 	@media (prefers-color-scheme: dark) { :root { --bg: #11151c; --fg: #e4e8ef; --muted: #98a2b3; --card: #1b212c; --line: #2d3644; --accent: #6ea8ff; } }
@@ -27,10 +27,10 @@
 <body>
 <main>
 	<div class="lang"><a href="#" id="toEn">EN</a> | <a href="#" id="toRu">RU</a></div>
-	<h1>Epic Cash pool API</h1>
+	<h1>Veil pool API</h1>
 	<p class="muted">
-		<span data-l="en">Public, read-only JSON API. Amounts are in atomic units: 1 EPIC = 100 000 000. Everything not listed here is closed.</span>
-		<span data-l="ru">Публичный JSON API только для чтения. Суммы в минимальных единицах: 1 EPIC = 100 000 000. Всё, чего нет в списке, закрыто.</span>
+		<span data-l="en">Public, read-only JSON API. Amounts are in atomic units: 1 VEIL = 100 000 000. Everything not listed here is closed.</span>
+		<span data-l="ru">Публичный JSON API только для чтения. Суммы в минимальных единицах: 1 VEIL = 100 000 000. Всё, чего нет в списке, закрыто.</span>
 	</p>
 
 	<h2><span data-l="en">Methods</span><span data-l="ru">Методы</span></h2>
@@ -41,12 +41,12 @@
 		<a href="/api/stats">/api/stats</a></div>
 
 	<div class="ep"><code class="path">GET /api/stats_address?address=ADDRESS&amp;longpoll=false</code>
-		<div data-l="en">Statistics of one miner: hashrate, shares, balance, paid, workers, payments. <code>ADDRESS</code> may be written as in the miner login: <code>KEY@epicbox.epiccash.com</code>, with a worker (<code>…+rig1</code>), with a deposit note for exchanges (<code>…@epicbox.nonkyc.io.NOTE</code> or <code>#NOTE</code>).</div>
-		<div data-l="ru">Статистика одного майнера: хешрейт, шары, баланс, выплачено, воркеры, платежи. <code>ADDRESS</code> можно писать так же, как в логине майнера: <code>КЛЮЧ@epicbox.epiccash.com</code>, с воркером (<code>…+rig1</code>), с меткой депозита для бирж (<code>…@epicbox.nonkyc.io.МЕТКА</code> или <code>#МЕТКА</code>).</div></div>
+		<div data-l="en">Statistics of one miner: hashrate, shares, balance, paid, workers, payments. <code>ADDRESS</code> is the basecoin address of the miner login (<code>bv1q…</code>), optionally with a worker (<code>…+rig1</code>).</div>
+		<div data-l="ru">Статистика одного майнера: хешрейт, шары, баланс, выплачено, воркеры, платежи. <code>ADDRESS</code> это basecoin-адрес из логина майнера (<code>bv1q…</code>), можно с воркером (<code>…+rig1</code>).</div>
 
 	<div class="ep"><code class="path">GET /api/get_payments?time=UNIX_MS</code>
-		<div data-l="en">Latest payments (older than <code>time</code>, milliseconds). A record is <code>kernel_excess:amount:fee:0:1:block_height</code>, the score is the payment time. The kernel excess is the transaction's identifier on the chain, the explorer shows it inside the block.</div>
-		<div data-l="ru">Последние платежи (старше <code>time</code>, миллисекунды). Запись: <code>kernel_excess:сумма:комиссия:0:1:высота_блока</code>, score - время платежа. Kernel excess - идентификатор транзакции в цепочке, обозреватель показывает его внутри блока.</div>
+		<div data-l="en">Latest payments (older than <code>time</code>, milliseconds). A record is <code>txid:amount:fee:0:recipients:block_height</code>, the score is the payment time. The txid is the transaction id; the explorer has a page for it.</div>
+		<div data-l="ru">Последние платежи (старше <code>time</code>, миллисекунды). Запись: <code>txid:сумма:комиссия:0:получателей:высота_блока</code>, score - время платежа. txid - идентификатор транзакции; у неё есть страница в обозревателе.</div>
 		<a href="/api/get_payments?time=9999999999999">/api/get_payments?time=9999999999999</a></div>
 
 	<div class="ep"><code class="path">GET /api/get_blocks?height=HEIGHT</code>

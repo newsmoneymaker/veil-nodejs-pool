@@ -1,12 +1,12 @@
 {
   "poolHost": "pool.example.com",
-  "coin": "Epic Cash",
-  "symbol": "EPIC",
+  "coin": "Veil",
+  "symbol": "VEIL",
   "coinUnits": 100000000,
   "coinDecimalPlaces": 8,
   "coinDifficultyTarget": 60,
-  "blockchainExplorer": "https://explorer.epicmine.io/block/{id}",
-  "transactionExplorer": "https://explorer.epicmine.io/block/{id}",
+  "blockchainExplorer": "https://explorer.veil-project.com/main/block/{id}",
+  "transactionExplorer": "https://explorer.veil-project.com/main/tx/{id}",
   "logging": {
     "files": {
       "level": "info",
@@ -28,27 +28,27 @@
     "sslCA": "./chain.pem",
     "ports": [
       {
-        "port": 3333,
-        "desc": "Epic stratum (plain TCP, fixed difficulty set in node config)"
+        "port": 4333,
+        "desc": "Veil stratum (plain TCP, difficulty adjusts to your hashrate)"
       },
       {
-        "port": 3334,
-        "desc": "Epic stratum over TLS (encrypted)",
+        "port": 4334,
+        "desc": "Veil stratum over TLS (encrypted)",
         "tls": true
       },
       {
-        "port": 8443,
-        "desc": "Epic stratum over TLS (alternative port)",
+        "port": 4443,
+        "desc": "Veil stratum over TLS (alternative port)",
         "tls": true
       },
       {
-        "port": 993,
-        "desc": "Epic stratum over TLS (alternative port)",
+        "port": 5443,
+        "desc": "Veil stratum over TLS (alternative port)",
         "tls": true
       },
       {
-        "port": 2053,
-        "desc": "Epic stratum over TLS (alternative port)",
+        "port": 9443,
+        "desc": "Veil stratum over TLS (alternative port)",
         "tls": true
       }
     ],
@@ -63,43 +63,43 @@
       "weight": 86400
     },
     "bindIp": "0.0.0.0",
-    "requireNoteDomains": [
-      "epicbox.nonkyc.io"
-    ],
     "allowIPs": [],
     "maxConnectionsPerIp": 100,
     "maxUnauthenticatedPerIp": 10,
     "loginTimeout": 20,
-    "maxConnections": 3000
+    "maxConnections": 3000,
+    "varDiff": {
+      "startDiff": 20000,
+      "minDiff": 2000,
+      "maxDiff": 5000000,
+      "targetTime": 20,
+      "retargetTime": 60,
+      "variancePercent": 30,
+      "maxJump": 100
+    },
+    "jobRefresh": 1000
   },
   "payments": {
     "enabled": false,
     "interval": 600,
-    "maxAddresses": 50,
-    "mixin": 3,
-    "priority": 0,
-    "transferFee": 50,
-    "dynamicTransferFee": true,
-    "minerPayFee": true,
-    "minPayment": 50000000,
-    "maxTransactionAmount": 2000000000,
-    "denomination": 100,
-    "dryRun": true,
-    "maxPaymentsPerRound": 10,
-    "minConfirmations": 3,
+    "minPayment": 2500000000,
+    "maxTransactionAmount": 10000000000000,
+    "maxPaymentsPerRound": 50,
+    "minConfirmations": 6,
     "pendingTimeoutHours": 48,
-    "reserve": 5000000,
+    "reserve": 100000000,
+    "minerPayFee": true,
+    "dryRun": true,
     "onlyAccounts": []
   },
   "blockUnlocker": {
     "enabled": true,
     "interval": 60,
-    "depth": 1440,
+    "depth": 110,
     "poolFee": 1,
     "networkFee": 0,
-    "fixBlockHeightRPC": false,
     "donations": {
-      "esYd2vznULSZPn8yQG1SpViF1xEdSs4Fa4n91tkhdSxZCNVdkBt4@epicbox.epiccash.com": 0.5
+      "bv1q3usgtz94uf4hpd4md7qrtlfzhl5gzctpsw90f2": 0.5
     }
   },
   "api": {
@@ -107,7 +107,7 @@
     "hashrateWindow": 600,
     "updateInterval": 5,
     "bindIp": "127.0.0.1",
-    "port": 8117,
+    "port": 8118,
     "blocks": 30,
     "payments": 30,
     "password": "CHANGE_ME_API_PASSWORD",
@@ -120,7 +120,7 @@
   },
   "redis": {
     "host": "127.0.0.1",
-    "port": 6379,
+    "port": 6381,
     "auth": "CHANGE_ME_REDIS_PASSWORD",
     "db": 0,
     "cleanupInterval": 15
@@ -192,16 +192,12 @@
   },
   "node": {
     "host": "127.0.0.1",
-    "port": 3416,
-    "api": {
-      "host": "127.0.0.1",
-      "port": 3413
-    }
+    "port": 5556,
+    "user": "veilpool",
+    "passwordFile": "/opt/veil/data/rpc.pass"
   },
-  "wallet": {
-    "host": "127.0.0.1",
-    "port": 3420,
-    "user": "epic",
-    "secretFile": "/path/to/wallet/.owner_api_secret"
+  "hasher": {
+    "path": "/opt/veil-nodejs-pool/hasher/veilhash",
+    "threads": 2
   }
 }

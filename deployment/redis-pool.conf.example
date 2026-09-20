@@ -1,7 +1,7 @@
 # Redis of the pool (copy, set a real password and the directory, and use the same values in config.json -> redis)
 bind 127.0.0.1
-port 6380
-dir /var/lib/epic-pool-redis
+port 6381
+dir /var/lib/veil-pool-redis
 daemonize no
 requirepass CHANGE_ME_REDIS_PASSWORD
 appendonly yes

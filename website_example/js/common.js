@@ -224,12 +224,10 @@ function getReadableCoin(stats, coins, digits, withoutSymbol) {
 }
 
 
-// Format payment link
-// (Epic: the explorer has no page per transaction, it lists the kernels inside the block, so the link goes to the block
-// in which the payment was confirmed; the shown "hash" is the kernel excess)
+// Format payment link (the payment "hash" is the transaction id; the explorer has a page per transaction)
 function formatPaymentLink(hash, merged, height){
     var shown = hash && hash.length > 24 ? hash.substring(0, 12) + '...' + hash.substring(hash.length - 8) : hash;
-    var txUrl = height ? getTransactionUrl(height, merged) : null;
+    var txUrl = hash ? getTransactionUrl(hash, merged) : null;
     return txUrl ? '<a target="_blank" href="' + txUrl + '" title="' + hash + '">' + shown + '</a>' : '<span title="' + hash + '">' + shown + '</span>';
 }
 
@@ -285,7 +283,7 @@ function getPoolHost() {
 }
 
 // Round effort in %. pool.roundHashes is measured in fractions of a block (config.blockScale = one block),
-// because Epic's algorithms have unrelated difficulty units (see lib/shares.js).
+// (a share's weight is its chance of being a block, see lib/shares.js).
 function getRoundEffort(stats) {
     var unit = stats.config.blockScale || stats.network.difficulty;
     return (stats.pool.roundHashes / unit * 100).toFixed(1);

@@ -1,0 +1,17 @@
+[Unit]
+Description=Veil pool: block unlocker (credits the miners after the coinbase maturity)
+After=veil-pool-redis.service veil-node.service
+Requires=veil-pool-redis.service
+[Service]
+Type=simple
+User=veilpool
+WorkingDirectory=/opt/veil-nodejs-pool
+ExecStart=/usr/bin/node /opt/veil-nodejs-pool/init.js -module=unlocker
+Restart=always
+RestartSec=15
+TimeoutStopSec=30
+NoNewPrivileges=true
+PrivateTmp=true
+
+[Install]
+WantedBy=multi-user.target

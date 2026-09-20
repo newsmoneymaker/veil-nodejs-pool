@@ -1,25 +1,24 @@
-<!-- FAQ (Epic Cash). Two language blocks; the one matching the site language is shown. -->
+<!-- FAQ (Veil). Two language blocks; the one matching the site language is shown. -->
 
 <div class="faq" data-faq="en">
     <h3>Frequently Asked Questions (FAQ)</h3>
 
     <h4 class="push-up-20">What do I use as my wallet address?</h4>
     <div class="card padding-15 push-down-10">
-        Epic has no public receiving address like most coins. Use the <strong>epicbox address</strong> of your
-        <code>epic-wallet</code> (52 characters, starts with <code>es</code>, optionally followed by
-        <code>@domain</code>). Run <code>epic-wallet address</code> to see it. Payments are sent to this address.
+        A Veil <strong>basecoin address</strong>: <code>bv1q…</code>, 42 characters. In the Veil wallet open the console
+        (Settings, Advanced options) and run <code>getnewbasecoinaddress</code>. Stealth (<code>sv1…</code>) addresses are not accepted.
+        Payments are sent to this address.
     </div>
 
-    <h4 class="push-up-20">Which algorithms can I mine?</h4>
+    <h4 class="push-up-20">Which algorithm do I mine?</h4>
     <div class="card padding-15 push-down-10">
-        RandomX (CPU), ProgPow (GPU) and Cuckoo (GPU). Shares of every supported algorithm are credited, weighted by their
-        probability of finding a block. A share can become a block only when it matches the algorithm the network requires
-        for the block currently being mined.
+        RandomX on the CPU (<code>rx/veil</code> in XMRig terms: standard RandomX over the double SHA-256 of the block header).
+        A stock XMRig does not support it: use poolpayminer or an XMRig fork with <code>rx/veil</code>.
     </div>
 
     <h4 class="push-up-20">Can I change my difficulty?</h4>
     <div class="card padding-15 push-down-10">
-        No. The share difficulty is fixed by the Epic node the pool is built on, and is the same for all miners.
+        It adjusts automatically to your hashrate (about one share every 20 seconds). Fixed difficulty is not available.
     </div>
 
     <h4 class="push-up-20">How are rewards split?</h4>
@@ -31,67 +30,59 @@
 
     <h4 class="push-up-20">When do I get paid?</h4>
     <div class="card padding-15 push-down-10">
-        Block rewards become spendable only <strong>1440 blocks (about 24 hours)</strong> after the block is found. After that the pool
-        credits your balance, and pays it out once it reaches the pool's minimum payment. Payments in Mimblewimble are interactive:
-        keep your wallet online so it can receive them.
+        A block reward is credited to the balances after <strong>100 confirmations</strong> (Veil's coinbase maturity). Everyone whose balance
+        is above the minimum payout is paid in one transaction per round; the network fee is shared by the paid miners.
+        The payment appears on the Payments page with a link to the transaction in the block explorer.
     </div>
 
-    <h4 class="push-up-20">Why are my statistics empty or delayed?</h4>
+    <h4 class="push-up-20">The pool does not accept my address</h4>
     <div class="card padding-15 push-down-10">
-        Statistics are updated every few seconds, but your hashrate is estimated from your accepted shares over a time window,
-        so a new miner needs some minutes of mining before it shows a stable number.
+        It must be a basecoin address starting with <code>bv1q</code> (42 characters, lower case). Copy it from the wallet console without spaces.
     </div>
 </div>
 
-<div class="faq" data-faq="ru" style="display:none">
+<div class="faq" data-faq="ru">
     <h3>Часто задаваемые вопросы (FAQ)</h3>
 
     <h4 class="push-up-20">Какой адрес кошелька указывать?</h4>
     <div class="card padding-15 push-down-10">
-        У Epic нет публичного адреса получения, как у большинства монет. Используйте <strong>epicbox-адрес</strong> вашего
-        <code>epic-wallet</code> (52 символа, начинается с <code>es</code>, за ним может идти <code>@домен</code>).
-        Посмотреть его можно командой <code>epic-wallet address</code>. Выплаты отправляются на этот адрес.
+        <strong>basecoin-адрес</strong> Veil: <code>bv1q…</code>, 42 символа. В кошельке Veil откройте консоль
+        (Настройки, Дополнительные параметры) и выполните <code>getnewbasecoinaddress</code>. Stealth-адреса (<code>sv1…</code>) не принимаются.
+        Выплаты отправляются на этот адрес.
     </div>
 
-    <h4 class="push-up-20">Какие алгоритмы можно майнить?</h4>
+    <h4 class="push-up-20">Какой алгоритм майнить?</h4>
     <div class="card padding-15 push-down-10">
-        RandomX (CPU), ProgPow (GPU) и Cuckoo (GPU). Шары любого поддерживаемого алгоритма засчитываются, а их вес зависит от
-        вероятности найти блок. Шара может стать блоком, только если она соответствует алгоритму, который сеть требует для
-        блока, майнящегося в данный момент.
+        RandomX на процессоре (в терминах XMRig это <code>rx/veil</code>: стандартный RandomX поверх двойного SHA-256 заголовка блока).
+        Обычный XMRig его не поддерживает: используйте poolpayminer или форк XMRig с <code>rx/veil</code>.
     </div>
 
-    <h4 class="push-up-20">Можно ли изменить свою сложность?</h4>
+    <h4 class="push-up-20">Можно ли изменить сложность?</h4>
     <div class="card padding-15 push-down-10">
-        Нет. Сложность шар задаётся нодой Epic, на которой построен пул, и одинакова для всех майнеров.
+        Она подстраивается под ваш хешрейт автоматически (примерно одна шара в 20 секунд). Фиксированной сложности нет.
     </div>
 
     <h4 class="push-up-20">Как делятся награды?</h4>
     <div class="card padding-15 push-down-10">
-        Пропорционально вашим шарам в раунде, с учётом времени: более старые шары раунда весят меньше новых, это защищает
-        от «прыгания» между пулами. Если хотите забирать всю награду за блок, найденный вами, вместо деления, укажите в
-        логине <code>solo:АДРЕС</code>.
+        Пропорционально вашим шарам в раунде, с учётом времени: старые шары раунда весят меньше новых, это защищает от переходов
+        майнеров между пулами. Укажите <code>solo:АДРЕС</code> в логине, если хотите забирать всю награду за найденный вами блок, а не делить её.
     </div>
 
     <h4 class="push-up-20">Когда придут выплаты?</h4>
     <div class="card padding-15 push-down-10">
-        Награда за блок становится доступной только через <strong>1440 блоков (около 24 часов)</strong> после его нахождения.
-        После этого пул зачисляет её на ваш баланс и выплачивает, когда баланс достигнет минимальной выплаты пула. Платежи
-        в Mimblewimble интерактивны: держите кошелёк онлайн, чтобы их получить.
+        Награда за блок зачисляется на балансы после <strong>100 подтверждений</strong> (созревание coinbase в Veil). Все, чей баланс выше минимальной выплаты,
+        получают деньги одной транзакцией за раунд; комиссию сети делят между собой получатели.
+        Выплата появляется на странице Payments со ссылкой на транзакцию в обозревателе.
     </div>
 
-    <h4 class="push-up-20">Почему статистика пустая или отстаёт?</h4>
+    <h4 class="push-up-20">Пул не принимает мой адрес</h4>
     <div class="card padding-15 push-down-10">
-        Статистика обновляется каждые несколько секунд, но хешрейт оценивается по принятым шарам за интервал времени,
-        поэтому новому майнеру нужно несколько минут работы, чтобы показать стабильное значение.
+        Нужен basecoin-адрес, начинающийся с <code>bv1q</code> (42 символа, строчные буквы). Скопируйте его из консоли кошелька без пробелов.
     </div>
 </div>
 
 <script>
 var faqLang = (typeof langCode !== 'undefined' && langCode === 'ru') ? 'ru' : 'en';
 $('.faq').hide().filter('[data-faq="' + faqLang + '"]').show();
-
-currentPage = {
-    destroy: function () {},
-    update: function () {}
-};
+currentPage = { destroy: function () {}, update: function () {} };
 </script>

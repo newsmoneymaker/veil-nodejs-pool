@@ -1,0 +1,19 @@
+[Unit]
+Description=Veil node (veild): the chain, the block templates and the pool wallet
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=veilpool
+# veil.conf: server=1, rpcuser/rpcpassword, rpcbind=127.0.0.1, rpcport=5556, miningaddress=<the pool's bv1q address>, see docs/INSTALL.md
+ExecStart=/opt/veil/bin/veild -datadir=/opt/veil/data -conf=/opt/veil/data/veil.conf -printtoconsole
+Restart=on-failure
+RestartSec=30
+LimitNOFILE=65536
+TimeoutStopSec=180
+NoNewPrivileges=true
+PrivateTmp=true
+
+[Install]
+WantedBy=multi-user.target

@@ -1,7 +1,7 @@
 {
   "poolHost": "localhost",
-  "coin": "Epic Cash",
-  "symbol": "EPIC",
+  "coin": "Veil",
+  "symbol": "VEIL",
   "coinUnits": 100000000,
   "coinDecimalPlaces": 8,
   "coinDifficultyTarget": 60,
@@ -26,15 +26,13 @@
     "sslCert": "./cert.pem",
     "sslKey": "./privkey.pem",
     "sslCA": "./chain.pem",
-    "requireNoteDomains": [
-      "epicbox.nonkyc.io"
-    ],
     "maxUnauthenticatedPerIp": 10,
     "loginTimeout": 3,
     "ports": [
       {
-        "port": 13333,
-        "desc": "test"
+        "port": 23333,
+        "desc": "test",
+        "diff": 4
       }
     ],
     "banning": {
@@ -47,7 +45,17 @@
       "enabled": true,
       "weight": 300
     },
-    "bindIp": "127.0.0.1"
+    "bindIp": "127.0.0.1",
+    "varDiff": {
+      "startDiff": 4,
+      "minDiff": 1,
+      "maxDiff": 100000,
+      "targetTime": 20,
+      "retargetTime": 60,
+      "variancePercent": 30,
+      "maxJump": 100
+    },
+    "jobRefresh": 300
   },
   "payments": {
     "enabled": false,
@@ -161,10 +169,11 @@
   },
   "node": {
     "host": "127.0.0.1",
-    "port": 13416,
-    "api": {
-      "host": "127.0.0.1",
-      "port": 3413
-    }
+    "port": 25556,
+    "user": "test",
+    "password": "test"
+  },
+  "hasher": {
+    "threads": 2
   }
 }

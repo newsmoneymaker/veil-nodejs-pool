@@ -3,3 +3,4 @@ logs/
 config.json
 STOP_PAYMENTS
 *.log
+hasher/veilhash

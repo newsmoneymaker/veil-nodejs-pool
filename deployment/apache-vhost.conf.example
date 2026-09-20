@@ -17,7 +17,7 @@
 
     # Only these read-only methods of the pool API are exposed. admin_*, set_*, test_* and everything else stay closed.
     RewriteEngine On
-    RewriteRule ^/api/(stats|live_stats|stats_address|get_payments|get_blocks|get_top10miners|block_explorers|get_apis)/?$ http://127.0.0.1:8117/$1 [P,QSA,L]
+    RewriteRule ^/api/(stats|live_stats|stats_address|get_payments|get_blocks|get_top10miners|block_explorers|get_apis)/?$ http://127.0.0.1:8118/$1 [P,QSA,L]
     RewriteRule ^/api/?$ /api.html [L]
     RewriteRule ^/api(/.*)?$ - [R=404,L]
 </VirtualHost>

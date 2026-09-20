@@ -21,7 +21,7 @@
  require('./lib/exceptionWriter.js')(logSystem);
 
  // Pool informations
- log('info', logSystem, 'Starting Epic Cash pool (cryptonote-nodejs-pool based) version %s', [version]);
+ log('info', logSystem, 'Starting Veil pool (cryptonote-nodejs-pool based) version %s', [version]);
 
  // Initialize redis database client
  var redis = require('redis');

@@ -1,35 +1,28 @@
-// Unit checks of the account parsing (address + optional deposit note). Run: node test-account.js
+// Unit checks of the Veil address handling (bech32 basecoin addresses). Run: node test/test-account.js
 const path = require('path');
+global.config = {};
 const u = require(path.join(__dirname, '../lib/utils.js'));
 
-const KEY = 'esYd2vznULSZPn8yQG1SpViF1xEdSs4Fa4n91tkhdSxZCNVdkBt4';       // the pool's own public address
-const EXCH = 'esXnCQUxaAqmVFdhNK2McAVqTrf4Urhy9n33Mhv8hnX1jGjN5Kqv';      // an exchange deposit address (public)
+// a valid basecoin address (the developer donation address of the project)
+const OK = process.env.TEST_ADDRESS || 'bv1q3usgtz94uf4hpd4md7qrtlfzhl5gzctpsw90f2';
 let failed = 0;
-function check (name, actual, expected) {
-	let ok = JSON.stringify(actual) === JSON.stringify(expected);
-	if (!ok) failed++;
-	console.log(ok ? 'ok  ' : 'FAIL', name, ok ? '' : '\n   got ' + JSON.stringify(actual) + '\n   exp ' + JSON.stringify(expected));
-}
-const acc = s => { let p = u.parseMinerAccount(s); return p && {account: p.account, note: p.note, domain: p.domain}; };
+function check (name, cond) { console.log((cond ? 'ok   ' : 'FAIL ') + name); if (!cond) failed++; }
 
-check('own wallet, default domain', acc(`${KEY}@epicbox.epiccash.com`), {account: `${KEY}@epicbox.epiccash.com`, note: null, domain: 'epicbox.epiccash.com'});
-check('own wallet, bare key', acc(KEY), {account: `${KEY}@epicbox.epiccash.com`, note: null, domain: 'epicbox.epiccash.com'});
-check('exchange address without note', acc(`${EXCH}@epicbox.nonkyc.io`), {account: `${EXCH}@epicbox.nonkyc.io`, note: null, domain: 'epicbox.nonkyc.io'});
-check('note after a dot (digits)', acc(`${EXCH}@epicbox.nonkyc.io.123456`), {account: `${EXCH}@epicbox.nonkyc.io#123456`, note: '123456', domain: 'epicbox.nonkyc.io'});
-check('note after a hash (letters)', acc(`${EXCH}@epicbox.nonkyc.io#abc-12_X`), {account: `${EXCH}@epicbox.nonkyc.io#abc-12_X`, note: 'abc-12_X', domain: 'epicbox.nonkyc.io'});
-check('note with bare key + dot', acc(`${KEY}.42`), {account: `${KEY}@epicbox.epiccash.com#42`, note: '42', domain: 'epicbox.epiccash.com'});
-check('same account typed two ways', acc(`${EXCH}@epicbox.nonkyc.io.7`).account, acc(`${EXCH}@epicbox.nonkyc.io#7`).account);
-check('IPv4 domain is not a note', acc(`${KEY}@10.0.0.4`), {account: `${KEY}@10.0.0.4`, note: null, domain: '10.0.0.4'});
-check('IPv4 domain + hash note', acc(`${KEY}@10.0.0.4#9`), {account: `${KEY}@10.0.0.4#9`, note: '9', domain: '10.0.0.4'});
-check('explicit port 443 + note', acc(`${KEY}@epicbox.example.com:443.5`), {account: `${KEY}@epicbox.example.com#5`, note: '5', domain: 'epicbox.example.com'});
-check('other port rejected', acc(`${KEY}@epicbox.example.com:8080.5`), null);
-check('bad checksum rejected', acc('esYd2vznULSZPn8yQG1SpViF1xEdSs4Fa4n91tkhdSxZCNVdkBt5@epicbox.epiccash.com'), null);
-check('note too long rejected', acc(`${KEY}@epicbox.epiccash.com.` + '1'.repeat(33)), null);
-check('junk rejected', acc('hello.123'), null);
-check('empty note rejected', acc(`${KEY}@epicbox.epiccash.com#`), null);
-check('split back (note)', u.splitMinerAccount(`${EXCH}@epicbox.nonkyc.io#123`), {address: `${EXCH}@epicbox.nonkyc.io`, note: '123'});
-check('split back (no note)', u.splitMinerAccount(`${KEY}@epicbox.epiccash.com`), {address: `${KEY}@epicbox.epiccash.com`, note: null});
-check('canonical of typed text', u.canonicalMinerAccount(`${EXCH}@EPICBOX.NONKYC.IO.123`), `${EXCH}@epicbox.nonkyc.io#123`);
+check('valid basecoin address', u.validateMinerAddress(OK));
+check('canonical form is the address itself', u.canonicalMinerAddress(OK) === OK);
+const flipped = OK.slice(0, -1) + (OK.slice(-1) === 'q' ? 'p' : 'q');
+check('bad checksum rejected', !u.validateMinerAddress(flipped));
+check('upper case rejected', !u.validateMinerAddress(OK.toUpperCase()));
+check('other prefix rejected', !u.validateMinerAddress('sv1' + OK.slice(3)));
+check('too short rejected', !u.validateMinerAddress(OK.slice(0, 30)));
+check('too long rejected', !u.validateMinerAddress(OK + 'q'));
+check('empty and non-string rejected', !u.validateMinerAddress('') && !u.validateMinerAddress(null) && !u.validateMinerAddress(42));
+check('account = address, no note', u.parseMinerAccount(OK).account === OK && u.parseMinerAccount(OK).note === null);
+check('split back', u.splitMinerAccount(OK).address === OK && u.splitMinerAccount(OK).note === null);
+check('reward mode prefix', u.determineRewardData('solo:' + OK).rewardType === 'solo' && u.determineRewardData('solo:' + OK).address === OK);
 
-console.log(failed ? `\n${failed} FAILED` : '\nall checks passed');
+const dev = u.donationTable({donations: {[OK]: 0.5, 'nonsense': 1, [OK.slice(0, -1) + 'q']: 50}});
+check('donation table keeps valid entries only', Object.keys(dev).length === 1 && dev[OK] === 0.5);
+
+console.log(failed ? '\n' + failed + ' check(s) failed' : '\nall checks passed');
 process.exit(failed ? 1 : 0);
