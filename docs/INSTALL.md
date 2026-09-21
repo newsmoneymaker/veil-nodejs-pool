@@ -69,7 +69,7 @@ Edit `config.json`: `poolHost`, the ports and the certificate for TLS (`poolServ
 ```
 cp deployment/systemd/*.service /etc/systemd/system/ && systemctl daemon-reload
 systemctl enable --now veil-pool-redis veil-node
-systemctl enable --now veil-pool veil-pool-api veil-pool-unlocker veil-pool-payments
+systemctl enable --now veil-pool veil-pool-api veil-pool-unlocker veil-pool-payments veil-pool-charts
 ```
 
 The pool runs as separate modules (`init.js -module=pool|api|unlocker|payments`), each in its own unit. The pool module keeps one hasher process
