@@ -141,6 +141,12 @@ async function mine (c, job, wantShares, wantBlocks) {
 	// 4. redis
 	const candidates = await rcall('zrange', 'Veil:blocks:candidates', 0, -1, 'WITHSCORES');
 	check('block candidate stored', candidates.length >= 2 && candidates[0].split(':')[1] === ADDRESS, candidates[0] && candidates[0].split(':').slice(0, 3).join(':').slice(0, 60));
+	// the round scores must be kept under the block's height, and the candidate must carry their total
+	// (slush mining writes the scores of the current round: a wrong key here would leave the miners without their share of the block)
+	const cand = candidates[0].split(':');
+	const kept = await rcall('hgetall', 'Veil:scores:prop:round' + candidates[1]);
+	check('round scores are kept for the block and the candidate has a positive score total', !!kept && parseFloat(kept[ADDRESS]) > 0 && parseFloat(cand[6]) > 0, 'score field ' + cand[6]);
+	check('no stray scores of the current round in an untyped key', (await rcall('exists', 'Veil:scores:roundCurrent')) === 0);
 	const workers = await rcall('hgetall', 'Veil:workers:' + ADDRESS);
 	check('worker stats recorded', workers && parseInt(workers.hashes) > 0, JSON.stringify(workers));
 	const uw = await rcall('hgetall', 'Veil:unique_workers:' + ADDRESS + '~rig1');

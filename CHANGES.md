@@ -1,5 +1,14 @@
 # Changes
 
+## 1.0.1
+
+* **Fix: block rewards could not be split.** With slush mining the round scores were written to `<coin>:scores:roundCurrent`, while a found block moves and
+  reads `<coin>:scores:prop:roundCurrent`: the block candidate got a score total of 0 and nobody would have been credited. Scores are now written to
+  `<coin>:scores:<prop|solo>:roundCurrent`; the pool test checks that the round scores are kept for the block and the candidate has a positive total.
+  Found on the first real block of the live pool. If you run 1.0.0: stop the pool, rebuild the block's `<coin>:scores:prop:round<height>` from
+  `<coin>:shares_actual:prop:round<height>`, put the total into the last field of the candidate (`<coin>:blocks:candidates`), move the old
+  `<coin>:scores:roundCurrent` to `<coin>:scores:prop:roundCurrent`, and start 1.0.1 (do this before the block is unlocked).
+
 ## 1.0.0
 
 First release of the Veil adaptation of [cryptonote-nodejs-pool](https://github.com/dvandal/cryptonote-nodejs-pool) 1.4.1 (GPL-2.0), derived from
