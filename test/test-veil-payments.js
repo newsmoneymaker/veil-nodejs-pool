@@ -33,7 +33,7 @@ function rpcHandle (method, p, reply, fail, res) {
 			return reply({hash: p[0], height: h, confirmations: 1000 - h, tx: ['cb' + h]});
 		}
 		case 'gettransaction': {
-			if (p[0].startsWith('cb')) { const v = M.coinbase[p[0]]; return v === undefined ? fail(-5, 'Invalid or non-wallet transaction id') : reply({amount: v, confirmations: 100}); }
+			if (p[0].startsWith('cb')) { const v = M.coinbase[p[0]]; return v === undefined ? fail(-5, 'Invalid or non-wallet transaction id') : reply({amount: 0, confirmations: 100, generated: true, details: [{category: 'immature', amount: v, address: 'x'}]}); }   // like a real coinbase that is not mature yet: amount 0, the credit is in details
 			const t = M.txs[p[0]]; return t ? reply({txid: t.txid, confirmations: t.confirmations, fee: -0.002, blockhash: 'T' + t.txid}) : fail(-5, 'Invalid or non-wallet transaction id');
 		}
 		case 'getbalance': return reply(M.balance);

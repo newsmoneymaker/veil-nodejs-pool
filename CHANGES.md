@@ -1,5 +1,12 @@
 # Changes
 
+## 1.0.2
+
+* **Fix: unlocker read the reward as 0 for a coinbase that is not mature.** `gettransaction` reports `amount` 0 for an immature coinbase (the credit is in
+  `details`, category `immature`, later `generate`); the unlocker now sums the wallet's credit from `details`. Checked on a real Veil block.
+* The website shows the block hash and the finder's address shortened (full value in the tooltip), so a block row fits on the page.
+* The log lines of a found block name the worker.
+
 ## 1.0.1
 
 * **Fix: block rewards could not be split.** With slush mining the round scores were written to `<coin>:scores:roundCurrent`, while a found block moves and

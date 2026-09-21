@@ -153,7 +153,7 @@ async function mine (c, job, wantShares, wantBlocks) {
 	check('worker name recorded', uw && parseInt(uw.hashes) > 0);
 	const net = await rcall('hgetall', 'Veil:network');
 	check('network data published', net && net.algorithm === 'randomx' && parseInt(net.height) >= 4000001, JSON.stringify(net));
-	check('the pool log shows BLOCK FOUND', /BLOCK FOUND at height 400000\d by/.test(poolLog));
+	check('the pool log shows BLOCK FOUND', /BLOCK FOUND at height 400000\d by \S+ \(worker rig1\)/.test(poolLog));
 
 	cleanup();
 	console.log(failed ? '\n' + failed + ' CHECK(S) FAILED\n' + poolLog.slice(-1500) : '\nALL CHECKS PASSED');
