@@ -297,6 +297,12 @@ function getTransactionUrl(id, stats) {
 }
 
 // Return blockchain explorer URL
+// What identifies a block in the explorer link: its height (default) or its hash (config.js: var blockExplorerId = "hash";
+// the Veil explorer opens a block by hash, a height gives an empty page)
+function explorerBlockId(hash, height) {
+    return (typeof blockExplorerId !== 'undefined' && blockExplorerId === 'hash' && hash) ? hash : height;
+}
+
 function getBlockchainUrl(id, stats) {
     if (stats && blockExplorers){
         return blockExplorers[stats.config.coin].blockchainExplorer.replace('{symbol}', stats.config.symbol.toLowerCase()).replace('{id}', id);
@@ -603,7 +609,7 @@ function poolBlocks_ParseBlock(height, serializedBlock, stats){
 function getBlockRowElement(block, jsonString, stats){
     // the explorer addresses a block by its height (a hash would be read as a number and open the wrong block)
     function formatBlockLink(hash, stats, height){
-        var blockUrl = getBlockchainUrl(height, stats);
+        var blockUrl = getBlockchainUrl(explorerBlockId(hash, height), stats);
         // the hash is long: show its ends, the whole value is in the tooltip (and in the link)
         var shown = hash && hash.length > 24 ? hash.substring(0, 10) + '...' + hash.substring(hash.length - 8) : hash;
         return blockUrl ? '<a target="_blank" href="' + blockUrl + '" title="' + hash + '">' + shown + '</a>' : '<span title="' + hash + '">' + shown + '</span>';
@@ -2287,7 +2293,7 @@ function home_InitTemplate(parentStats, siblingStats) {
 
     let lastHash = updateText('lastHash', parentStats.lastblock.hash)
     if (lastHash) {
-        var lastUrl = getBlockchainUrl(parentStats.lastblock.height, parentStats);
+        var lastUrl = getBlockchainUrl(explorerBlockId(parentStats.lastblock.hash, parentStats.lastblock.height), parentStats);
         if (lastUrl) lastHash.setAttribute('href', lastUrl); else lastHash.removeAttribute('href');
     }
 

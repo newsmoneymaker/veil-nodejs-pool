@@ -1,5 +1,10 @@
 # Changes
 
+## Unreleased
+
+* Website: block links can use the block hash (`var blockExplorerId = "hash";` in `config.js`; the default stays the height). The Veil explorer opens a block by hash,
+  a height gave an empty page ("block not found"). Set in `config_examples`-based sites of Veil.
+
 ## 1.0.2
 
 * **Fix: unlocker read the reward as 0 for a coinbase that is not mature.** `gettransaction` reports `amount` 0 for an immature coinbase (the credit is in

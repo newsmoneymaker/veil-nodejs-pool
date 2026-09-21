@@ -24,6 +24,8 @@ var marketCurrencies = [];
 
 // Block explorer links ({id} = block height / transaction id)
 var blockchainExplorer = "https://explorer.veil-project.com/main/block/{id}";
+// the explorer opens a block by its hash (a height would give an empty page); "height" is the default
+var blockExplorerId = "hash";
 var transactionExplorer = "https://explorer.veil-project.com/main/tx/{id}";
 
 // Theme and default language ("en" or "ru")
