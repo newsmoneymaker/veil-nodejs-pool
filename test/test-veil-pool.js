@@ -155,6 +155,23 @@ async function mine (c, job, wantShares, wantBlocks) {
 	check('network data published', net && net.algorithm === 'randomx' && parseInt(net.height) >= 4000001, JSON.stringify(net));
 	check('the pool log shows BLOCK FOUND', /BLOCK FOUND at height 400000\d by \S+ \(worker rig1\)/.test(poolLog));
 
+	// 5. a share that is being checked while the miner's connection dies is still credited (the pool checks shares itself, nothing depends on the socket)
+	const c3 = client(); await sleep(200);
+	const l3 = await c3.call('login', {login: ADDRESS + '+late', pass: 'x', agent: 'test'});
+	const j3 = l3.result.job;
+	const t3 = Buffer.from(j3.target, 'hex').readBigUInt64LE(0), st3 = Buffer.from(j3.blob.substr(280, 8), 'hex').readUInt32LE(0);
+	let found = null;
+	for (let k = 0; k < 4000 && !found; k++) {
+		const nb = Buffer.alloc(4); nb.writeUInt32LE((st3 + k) >>> 0);
+		const h = await hashBlob(j3.blob.slice(0, 280) + nb.toString('hex') + j3.blob.slice(288));
+		if (Buffer.from(h, 'hex').readBigUInt64BE(0) < t3) found = {nonce: nb.toString('hex'), hash: h};
+	}
+	c3.sock.write(JSON.stringify({id: 9, jsonrpc: '2.0', method: 'submit', params: {id: l3.result.id, job_id: j3.job_id, nonce: found.nonce, result: found.hash}}) + '\n');
+	c3.sock.destroy();                                  // the connection dies right after the submit, the answer can not be delivered
+	await sleep(1500);
+	const lateHashes = await rcall('hget', 'Veil:unique_workers:' + ADDRESS + '~late', 'hashes');
+	check('a share sent just before the connection died is credited', parseInt(lateHashes || 0) > 0, 'hashes ' + lateHashes);
+
 	cleanup();
 	console.log(failed ? '\n' + failed + ' CHECK(S) FAILED\n' + poolLog.slice(-1500) : '\nALL CHECKS PASSED');
 	process.exit(failed ? 1 : 0);
