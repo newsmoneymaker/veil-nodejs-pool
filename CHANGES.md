@@ -2,6 +2,7 @@
 
 ## Unreleased
 
+* The variable difficulty is remembered per address and worker across reconnects (`poolServer.diffMemoryMinutes`, default 15): a miner whose connection is cut or renewed every half minute no longer restarts from the start difficulty each time.
 * Website: block links can use the block hash (`var blockExplorerId = "hash";` in `config.js`; the default stays the height). The Veil explorer opens a block by hash,
   a height gave an empty page ("block not found"). Set in `config_examples`-based sites of Veil.
 
