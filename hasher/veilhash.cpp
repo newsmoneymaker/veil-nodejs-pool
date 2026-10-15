@@ -3,6 +3,7 @@
 //   K <64 hex>            set the RandomX key (= the key block hash in the byte order given by the node's RPC, reversed
 //                         by the caller, i.e. the raw bytes fed to randomx_init_cache); answers "K ok" or "K err"
 //   H <id> <hex blob>     hash = RandomX( SHA256d(blob) ); answers "H <id> <64 hex of the RandomX output>"
+//                         with --raw the blob is hashed as it is: hash = RandomX(blob) (Epic Cash)
 //   Q                     quit
 // Veil's proof of work: RandomX (stock configuration) over the double SHA-256 of the 148 byte header blob.
 #include <randomx.h>
@@ -33,6 +34,7 @@ static randomx_cache *cache = nullptr;
 static randomx_dataset *dataset = nullptr;
 static std::vector<randomx_vm *> vms;
 static bool fastMode = true;
+static bool rawMode = false;      // --raw: RandomX over the blob itself (no SHA-256d)
 static bool haveKey = false;
 
 static bool fromHex(const std::string &s, std::string &out) {
@@ -69,9 +71,13 @@ static void worker(size_t idx) {
 			t = std::move(queue.front()); queue.pop_front(); busy++;
 		}
 		unsigned char h1[32], h2[32], out[RANDOMX_HASH_SIZE];
-		SHA256((const unsigned char *)t.blob.data(), t.blob.size(), h1);
-		SHA256(h1, 32, h2);
-		randomx_calculate_hash(vms[idx], h2, 32, out);
+		if (rawMode) {
+			randomx_calculate_hash(vms[idx], t.blob.data(), t.blob.size(), out);
+		} else {
+			SHA256((const unsigned char *)t.blob.data(), t.blob.size(), h1);
+			SHA256(h1, 32, h2);
+			randomx_calculate_hash(vms[idx], h2, 32, out);
+		}
 		say("H " + t.id + " " + toHex(out, RANDOMX_HASH_SIZE));
 		{
 			std::lock_guard<std::mutex> l(qm); busy--;
@@ -84,6 +90,7 @@ int main(int argc, char **argv) {
 	int threads = 2;
 	for (int i = 1; i < argc; i++) {
 		if (!strcmp(argv[i], "--light")) fastMode = false;
+		else if (!strcmp(argv[i], "--raw")) rawMode = true;
 		else if (!strcmp(argv[i], "--threads") && i + 1 < argc) threads = atoi(argv[++i]);
 	}
 	if (threads < 1) threads = 1;
